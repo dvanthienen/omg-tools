@@ -22,14 +22,14 @@ sys.path.insert(0, os.getcwd()+"/..")
 from omgtools import *
 
 
-vehicle = Holonomic(shapes=Square(0.4))
-vehicle.set_initial_conditions([2., 5.])  # input orientation in deg
-vehicle.set_terminal_conditions([8., 5.])
+vehicle = Dubins(shapes=Circle(0.2), bounds={'vmax': 0.8, 'wmax': np.pi/3., 'wmin': -np.pi/3.})
+vehicle.set_initial_conditions([0., 0., 0.])  # input orientation in rad
+vehicle.set_terminal_conditions([3.4, 3., 0.])
 
 
-trailer = TrailerHolonomic(lead_veh=vehicle,  shapes=Square(0.3), l_hitch = 0.6,
-                  bounds={'tmax': 45., 'tmin': -45.})
-trailer.set_initial_conditions([-5.])  
+trailer = Trailer(lead_veh=vehicle,  shapes=Rectangle(0.2, 0.2), l_hitch = 0.6,
+                  bounds={'tmax': np.pi/4., 'tmin': -np.pi/4.})
+trailer.set_initial_conditions(-5.)  
 
 environment = Environment(room={'shape': Square(10.), 'position': [5.,5.]})
 rectangle = Rectangle(width=.2, height=3.8)
@@ -48,14 +48,14 @@ simulator = Simulator(problem0)
 simulator.run_once(simulate=False)
 
 # create vehicle
-vehicle = Holonomic(shapes=Square(0.4))
-vehicle.set_initial_conditions([2., 5.])
-vehicle.set_terminal_conditions([8., 5.])
+vehicle = Dubins(shapes=Circle(0.2), bounds={'vmax': 0.8, 'wmax': np.pi/3., 'wmin': -np.pi/3.})
+vehicle.set_initial_conditions([0., 0., 0.])  # input orientation in rad
+vehicle.set_terminal_conditions([3.4, 3., 0.])
 
 # create trailer
-trailer = TrailerHolonomic(lead_veh=vehicle,  shapes=Square(0.3), l_hitch = 0.6,
-                  bounds={'tmax': 45., 'tmin': -45.})  
-trailer.set_initial_conditions([-5.])  
+trailer = Trailer(lead_veh=vehicle,  shapes=Rectangle(0.2, 0.2), l_hitch = 0.6,
+                  bounds={'tmax': np.pi/4., 'tmin': -np.pi/4.})
+trailer.set_initial_conditions(-5.)  
 
 # create environment
 environment = Environment(room={'shape': Square(10.), 'position': [5.,5.]})

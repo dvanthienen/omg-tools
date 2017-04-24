@@ -22,13 +22,12 @@ sys.path.insert(0, os.getcwd()+"/..")
 from omgtools import *
 
 
-vehicle = Holonomic(shapes=Square(0.4))
-vehicle.set_initial_conditions([2., 5.])  # input orientation in deg
-vehicle.set_terminal_conditions([8., 5.])
+vehicle = HolonomicOrient(shapes=Square(0.4))  # in deg
+vehicle.set_initial_conditions([2., 5., 0.]) 
+vehicle.set_terminal_conditions([8., 5., 0.])
 
-
-trailer = TrailerHolonomic(lead_veh=vehicle,  shapes=Square(0.3), l_hitch = 0.6,
-                  bounds={'tmax': 45., 'tmin': -45.})
+trailer = TrailerJolandHolonomic(lead_veh=vehicle,  shapes=Square(0.4), l_hitch = 0.3, l_hitch1 = 0.4,
+                  bounds={'tmax': 40., 'tmin': -40.})
 trailer.set_initial_conditions([-5.])  
 
 environment = Environment(room={'shape': Square(10.), 'position': [5.,5.]})
@@ -48,13 +47,13 @@ simulator = Simulator(problem0)
 simulator.run_once(simulate=False)
 
 # create vehicle
-vehicle = Holonomic(shapes=Square(0.4))
-vehicle.set_initial_conditions([2., 5.])
-vehicle.set_terminal_conditions([8., 5.])
+vehicle = HolonomicOrient(shapes=Square(0.4))  # in deg
+vehicle.set_initial_conditions([2., 5., 0.]) 
+vehicle.set_terminal_conditions([8., 5., 0.])
 
 # create trailer
-trailer = TrailerHolonomic(lead_veh=vehicle,  shapes=Square(0.3), l_hitch = 0.6,
-                  bounds={'tmax': 45., 'tmin': -45.})  
+trailer = TrailerJolandHolonomic(lead_veh=vehicle,  shapes=Square(0.4), l_hitch = 0.3, l_hitch1 = 0.4,
+                  bounds={'tmax': 40., 'tmin': -40.})
 trailer.set_initial_conditions([-5.])  
 
 # create environment
