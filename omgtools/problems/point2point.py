@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
 from problem import Problem
-from ..basics.spline_extra import definite_integral
+from ..basics.spline_extra import definite_integral, integral_sqbasis
 from ..basics.spline_extra import shiftoverknot_T, shift_spline, evalspline
 from ..export.export_p2p import ExportP2P
 from casadi import inf
@@ -188,18 +188,19 @@ class FixedTPoint2point(Point2pointProblem):
         if (interval_prev < interval_now): # passed a knot
             self.father.transform_primal_splines(lambda coeffs, basis, T:
                                                  T.dot(coeffs))
-            # self.father.transform_dual_splines(lambda coeffs, basis, T:
-            #                                    T.dot(coeffs))
+            print 'tf dual'
+            self.father.transform_dual_splines(lambda coeffs, basis, T:
+                                               T.dot(coeffs))
         self.current_time_prev = current_time
 
     def init_primal_transform(self, basis):
         return shiftoverknot_T(basis)
 
-    # def init_dual_transform(self, basis):
-    #     B = integral_sqbasis(basis)
-    #     Binv = np.linalg.solve(B, np.eye(len(basis)))
-    #     T = shiftoverknot_T(basis)
-    #     return B.dot(T).dot(Binv)
+    def init_dual_transform(self, basis):
+        # B = integral_sqbasis(basis)
+        # Binv = np.linalg.solve(B, np.eye(len(basis)))
+        # return B.dot(T).dot(Binv)
+        return shiftoverknot_T(basis)
 
     def initialize(self, current_time):
         Point2pointProblem.initialize(self, current_time)
